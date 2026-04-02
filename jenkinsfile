@@ -27,5 +27,27 @@ pipeline{
                 sh 'node node_modules/react-scripts/bin/react-scripts.js test --watchAll=false --passWithNoTests'
             }
         }
+        stage('Deploy'){
+            agent{
+                docker{
+                    image 'node:24.14.0-alpine'
+                    reuseNode true
+                    args '--user root'
+                }
+            }
+            steps{
+                echo 'Deploying...'
+                withCredentials([
+                    string(credentialsId: 'netlify-auth-token', variable: 'NETLIFY_AUTH_TOKEN'),
+                    string(credentialsId: 'netlify-site-id', variable: 'NETLIFY_SITE_ID')
+                ]) {
+                    sh '''
+                        npm install -g netlify-cli
+                        netlify --version
+                        netlify deploy --prod --dir=build --site=$NETLIFY_SITE_ID --auth=$NETLIFY_AUTH_TOKEN
+                    '''
+                }
+            }
+        }
     }
 }
