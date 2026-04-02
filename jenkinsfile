@@ -10,7 +10,7 @@ pipeline{
             }
             steps{
                 echo 'Building...'
-                sh 'npm install --no-bin-links'
+                sh 'npm install'
             }
         }
         stage('Test'){
