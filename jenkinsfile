@@ -11,7 +11,7 @@ pipeline{
             }
             steps{
                 echo 'Building...'
-                sh 'npm install'
+                sh 'npm install --no-bin-links'
             }
         }
         stage('Test'){
@@ -24,7 +24,7 @@ pipeline{
             }
             steps{
                 echo 'Testing...'
-                sh 'npx react-scripts test --watchAll=false --passWithNoTests'
+                sh 'node node_modules/react-scripts/bin/react-scripts.js test --watchAll=false --passWithNoTests'
             }
         }
     }
