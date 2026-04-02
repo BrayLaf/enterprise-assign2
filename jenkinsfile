@@ -22,7 +22,7 @@ pipeline{
             }
             steps{
                 echo 'Testing...'
-                sh 'npm test'
+                sh 'npx react-scripts test --watchAll=false --passWithNoTests'
             }
         }
     }
